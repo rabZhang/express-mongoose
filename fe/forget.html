@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Signin Template for Bootstrap</title>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <form class="form-signin">
+      <h2 class="form-signin-heading">重置密码</h2>
+      <label for="inputEmail" class="sr-only">用户名</label>
+      <input type="text" id="username" class="form-control" placeholder="用户名" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="password" class="form-control" placeholder="旧密码" required>
+       <label for="inputPassword" class="sr-only">新密码</label>
+      <input type="password" id="newpassword" class="form-control" placeholder="新密码" required>
+      <button class="btn btn-lg btn-primary btn-block" type="button">修改</button>
+    </form>
+
+  </div> <!-- /container -->
+  <script type="text/javascript" src="./js/cookie.js">
+      //引入cookie文件
+    </script>
+    <script type="text/javascript">
+      $(function(){
+        $('.btn').on('click',function(){
+          let username=$('#username').val();
+          let password=$('#password').val();
+          let newpassword=$('#newpassword').val();
+          $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:3000/modify",
+            dataType:'json',
+            data:{
+              username,
+              password,
+              newpassword,
+            },    
+            success: function(response) {
+              let res=JSON.parse(response);
+              if(res.status==1){
+                alert('修改成功，正在跳转至登陆页面')
+                location.href="./login.html"
+              }else if(res.status==2){
+                alert(res.msg)
+              }
+            },
+            error: function(response) {
+              console.log(response);
+            }
+          });
+        })
+      })
+      
+    </script>
+  </body>
+  </html>
